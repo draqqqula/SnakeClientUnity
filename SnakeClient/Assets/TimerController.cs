@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class TimerController : MonoBehaviour
 {
-    public TimeSpan TimeElapsed = TimeSpan.Zero;
+    public TimeSpan TimerExpires = TimeSpan.Zero;
+    public TimeSpan CurrentTime => TimerExpires - TimeSpan.FromSeconds(Time.realtimeSinceStartup);
     private TextMeshPro Text;
 
     void Start()
@@ -16,7 +17,6 @@ public class TimerController : MonoBehaviour
 
     void Update()
     {
-        TimeElapsed -= TimeSpan.FromSeconds(Time.deltaTime);
-        Text.text = TimeElapsed.ToString("mm\\:ss");
+        Text.text = CurrentTime.ToString("mm\\:ss");
     }
 }

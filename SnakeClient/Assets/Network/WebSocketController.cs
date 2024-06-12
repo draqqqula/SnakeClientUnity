@@ -6,6 +6,9 @@ using Zenject;
 using UnityEngine.Networking;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Assets.Network;
+using System.IO;
+using TMPro;
 
 
 public class WebSocketController : MonoBehaviour
@@ -21,22 +24,21 @@ public class WebSocketController : MonoBehaviour
     public string SessionId { get; private set; }
     private WebSocket WebSocket { get; set; }
 
-    public JoystickBehaviour JoyStick;
-    private float CurrentAngle { get; set; }
-
-    [field: SerializeField]
-    public float DirectionDelta { get; set; }
+    public TextMeshProUGUI IdDisplay;
 
     public UnityWebRequest CreateSessionRequest;
 
     public IMessageReader Reader;
 
+    public IInputWriter[] Writers;
+
     private bool SessionFound = false;
 
     [Inject]
-    public void Construct(IMessageReader reader)
+    public void Construct(IMessageReader reader, IInputWriter[] writers)
     {
         Reader = reader;
+        Writers = writers;
     }
 
     async void Start()
@@ -44,6 +46,9 @@ public class WebSocketController : MonoBehaviour
         if (AutoCreateSession)
         {
             CreateSessionRequest = UnityWebRequest.Get(LaunchString);
+            CreateSessionRequest.SetRequestHeader("Access-Control-Allow-Origin", "*");
+            CreateSessionRequest.SetRequestHeader("Access-Control-Allow-Methods", "*");
+            CreateSessionRequest.SetRequestHeader("Access-Control-Allow-Headers", "*");
             CreateSessionRequest.SendWebRequest().completed += async _ => 
             {
                 var regex = new Regex("[^\"]+");
@@ -57,6 +62,10 @@ public class WebSocketController : MonoBehaviour
 
     private async Task EstablishConnectionAsync()
     {
+        if (IdDisplay != null)
+        {
+            IdDisplay.SetText(SessionId);
+        }
         SessionFound = true;
         WebSocket = new WebSocket(string.Concat(ConnectionString, SessionId));
         WebSocket.OnError += (err) => Debug.Log(err);
@@ -70,14 +79,25 @@ public class WebSocketController : MonoBehaviour
         {
             return;
         }
-        if (WebSocket.State == WebSocketState.Open && Math.Abs(CurrentAngle - JoyStick.Direction) > DirectionDelta)
+        var data = RunWriters();
+        if (WebSocket.State == WebSocketState.Open && data.Length != 0)
         {
-            await WebSocket.Send(BitConverter.GetBytes(JoyStick.Direction));
-            CurrentAngle = JoyStick.Direction;
+            await WebSocket.Send(data);
         }
         #if !UNITY_WEBGL || UNITY_EDITOR
             WebSocket.DispatchMessageQueue();
         #endif
+    }
+
+    private byte[] RunWriters()
+    {
+        using var stream = new MemoryStream();
+        using var writer = new BinaryWriter(stream);
+        foreach (var service in Writers)
+        {
+            service.Write(writer);
+        }
+        return stream.ToArray();
     }
 
     public void OnMessage(byte[] buffer)

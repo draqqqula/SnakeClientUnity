@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Unity.Entities;
 using UnityEngine;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
 
 public class FrameDisplay : MonoBehaviour
 {
@@ -16,6 +16,10 @@ public class FrameDisplay : MonoBehaviour
     public GameObject[] FramePrefabs;
 
     private Dictionary<string, GameObject> _prefabDictionary;
+
+    private readonly Dictionary<int, Renderer[]> _cachedRenderers = new ();
+
+    private readonly HashSet<int> _sleeping = new ();
 
     public Dictionary<int, GameObject> Instances = new ();
 
@@ -30,23 +34,23 @@ public class FrameDisplay : MonoBehaviour
 
         ApplyUpdateEvents(message.PositionEventsLength, message.PositionEvents, 
             it => it.Value.Id,
-            (frame, obj) => ChangeXY(EnsureEnabled(obj).transform, frame.Value.Position));
+            (frame, obj) => ChangeXY(EnsureAwakened(obj, frame.Value.Id).transform, frame.Value.Position));
 
         ApplyUpdateEvents(message.AngleEventsLength, message.AngleEvents,
             it => it.Value.Id,
-            (frame, obj) => EnsureEnabled(obj).transform.rotation = Convert(frame.Value.Angle));
+            (frame, obj) => EnsureAwakened(obj, frame.Value.Id).transform.rotation = Convert(frame.Value.Angle));
 
         ApplyUpdateEvents(message.SizeEventsLength, message.SizeEvents,
             it => it.Value.Id,
-            (frame, obj) => EnsureEnabled(obj).transform.localScale = Convert(frame.Value.Size, Scale));
+            (frame, obj) => EnsureAwakened(obj, frame.Value.Id).transform.localScale = Convert(frame.Value.Size, AbsVector(Scale)));
 
         ApplyUpdateEvents(message.DisposedLength, message.Disposed,
             id => id,
-            (id, obj) => { Destroy(obj); Instances.Remove(id); });
+            (id, obj) => { Destroy(obj); Instances.Remove(id); _sleeping.Remove(id); _cachedRenderers.Remove(id); });
 
         ApplyUpdateEvents(message.SleepLength, message.Sleep,
             id => id,
-            (id, obj) => obj.SetActive(false));
+            (id, obj) => PutToSleep(id));
 
         ApplyEvents(message.TransformationsLength, message.Transformations,
             group => ApplyEvents(
@@ -54,6 +58,43 @@ public class FrameDisplay : MonoBehaviour
                 group.Value.Frames, id => ReplaceAsset(id, group.Value.NewAsset)
             ));
     }
+
+    private void PutToSleep(int id)
+    {
+        var target = Instances[id];
+        {
+            if (_cachedRenderers.TryGetValue(id, out var renderers))
+            {
+                DisableRenderers(renderers);
+            }
+        }
+        {
+            var renderers = target.GetComponents<Renderer>();
+            _cachedRenderers[id] = renderers;
+            DisableRenderers(renderers);
+        }
+        if (!_sleeping.Contains(id))
+        {
+            _sleeping.Add(id);
+        }
+    }
+
+    private void DisableRenderers(Renderer[] renderers)
+    {
+        foreach (var renderer in renderers)
+        {
+            renderer.forceRenderingOff = true;
+        }
+    }
+
+    private void EnableRenderers(Renderer[] renderers)
+    {
+        foreach (var renderer in renderers)
+        {
+            renderer.forceRenderingOff = false;
+        }
+    }
+
 
     private void ReplaceAsset(int id, string newAsset)
     {
@@ -83,7 +124,7 @@ public class FrameDisplay : MonoBehaviour
                     var frame = group.Frames(j).Value;
                     var position = Convert(frame.Position, Scale);
                     var rotation = Convert(frame.Angle);
-                    var size = Convert(frame.Size, Scale);
+                    var size = Convert(frame.Size, AbsVector(Scale));
                     if (Instances.TryGetValue(frame.Id, out var instance))
                     {
                         ChangeXY(instance.transform, frame.Position);
@@ -99,13 +140,19 @@ public class FrameDisplay : MonoBehaviour
         }
     }
 
-    private GameObject EnsureEnabled(GameObject obj)
+    private GameObject EnsureAwakened(GameObject obj, int id)
     {
-        if (!obj.activeSelf)
+        if (_sleeping.Contains(id) && _cachedRenderers.TryGetValue(id, out var renderers))
         {
-            obj.SetActive(true);
+            EnableRenderers(renderers);
+            _sleeping.Remove(id);
         }
         return obj;
+    }
+
+    private Vector2 AbsVector(Vector2 vector)
+    {
+        return new Vector2(Mathf.Abs(vector.x), Mathf.Abs(vector.y));
     }
 
     private void ChangeXY(Transform transform, Vec2 newPosition)

@@ -37,8 +37,8 @@ public class MinimapController : MonoBehaviour
             frame.TryGetComponent<MinimapDisplayable>(out var displayable))
             {
                 Pinned.Add(displayable, Instantiate(displayable.IconPrefab, _mapTransform));
+                Pending.Remove(id);
             }
-            Pending.Remove(id);
         }
     }
 
