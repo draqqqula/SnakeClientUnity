@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
+using UnityEngine.Events;
 
 public class RespawnWindowDisplay : WindowDisplay
 {
@@ -23,12 +24,12 @@ public class RespawnWindowDisplay : WindowDisplay
     public LocalizeStringEvent LocalizeStringEvent;
     public TextMeshProUGUI TimerDisplay;
     [SerializeField]
-    public GameObject Root;
+    private GameObject Root;
 
     public TimeSpan TimerExpires = TimeSpan.MinValue;
     public TimeSpan Timer => TimerExpires - TimeSpan.FromSeconds(Time.realtimeSinceStartup);
     public bool TimerActive {  get; set; } = true;
-    public new void Start()
+    public override void Start()
     {
         var partentCanvas = GetComponentInParent<Canvas>();
         var localCanvas = GetComponentInChildren<Canvas>();
@@ -42,12 +43,14 @@ public class RespawnWindowDisplay : WindowDisplay
     {
         TimerActive = false;
         Root.SetActive(false);
+        base.Hide();
     }
 
     public override void Show()
     {
         TimerActive = true;
         Root.SetActive(true);
+        base.Show();
     }
 
     public void SetTimer(float duration)

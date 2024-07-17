@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2511089400824853010, guid: 05ad5b61f8bc8144eb40a54e2a273e3f, type: 3}
+      propertyPath: Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2511089400824853010, guid: 05ad5b61f8bc8144eb40a54e2a273e3f, type: 3}
+      propertyPath: Color.g
+      value: 0.98475426
+      objectReference: {fileID: 0}
+    - target: {fileID: 2511089400824853010, guid: 05ad5b61f8bc8144eb40a54e2a273e3f, type: 3}
+      propertyPath: Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2894966964519575816, guid: 05ad5b61f8bc8144eb40a54e2a273e3f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -90,7 +102,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3689283902225098415, guid: 05ad5b61f8bc8144eb40a54e2a273e3f, type: 3}
       propertyPath: m_Name
-      value: body1
+      value: body1_Yellow
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

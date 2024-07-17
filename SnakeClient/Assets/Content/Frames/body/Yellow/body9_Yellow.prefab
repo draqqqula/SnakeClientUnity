@@ -10,7 +10,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4898601721768763739, guid: be6ed7f3ace03444c9f0ea45bf77d187, type: 3}
       propertyPath: m_Name
-      value: body9
+      value: body9_Yellow
+      objectReference: {fileID: 0}
+    - target: {fileID: 5913370239503742438, guid: be6ed7f3ace03444c9f0ea45bf77d187, type: 3}
+      propertyPath: Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5913370239503742438, guid: be6ed7f3ace03444c9f0ea45bf77d187, type: 3}
+      propertyPath: Color.g
+      value: 0.98475426
+      objectReference: {fileID: 0}
+    - target: {fileID: 5913370239503742438, guid: be6ed7f3ace03444c9f0ea45bf77d187, type: 3}
+      propertyPath: Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6405615637036230396, guid: be6ed7f3ace03444c9f0ea45bf77d187, type: 3}
       propertyPath: m_Pivot.x

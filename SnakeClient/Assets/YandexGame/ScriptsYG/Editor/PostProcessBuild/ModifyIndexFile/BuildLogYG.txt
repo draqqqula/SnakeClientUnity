@@ -1,2 +1,2 @@
-Build path: C:/Users/BogdanPC/Music/build1
-Build number: 16
+Build path: C:/Users/BogdanPC/UnityExport/SnakeTeams2048/WebGL
+Build number: 25

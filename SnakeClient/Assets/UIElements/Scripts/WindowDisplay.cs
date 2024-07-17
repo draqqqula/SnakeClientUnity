@@ -1,19 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class WindowDisplay : MonoBehaviour
 {
+    public UnityEvent OnShow;
+    public UnityEvent OnHide;
+
+
     [SerializeField]
     public bool ShowOnStart;
-    public void Start()
+    public virtual void Start()
     {
         if (!ShowOnStart)
         {
             Hide();
         }
     }
-    public abstract void Show();
+    public virtual void Show()
+    {
+        OnShow?.Invoke();
+    }
 
-    public abstract void Hide();
+    public virtual void Hide()
+    {
+        OnHide?.Invoke();
+    }
 }

@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7526946492423214265, guid: 03131e4e3945aa34eadb0262f1d63936, type: 3}
       propertyPath: m_Name
-      value: body0
+      value: body0_Yellow
       objectReference: {fileID: 0}
     - target: {fileID: 8316759556698772254, guid: 03131e4e3945aa34eadb0262f1d63936, type: 3}
       propertyPath: m_Pivot.x
@@ -91,6 +91,18 @@ PrefabInstance:
     - target: {fileID: 8316759556698772254, guid: 03131e4e3945aa34eadb0262f1d63936, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763656726703128580, guid: 03131e4e3945aa34eadb0262f1d63936, type: 3}
+      propertyPath: Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763656726703128580, guid: 03131e4e3945aa34eadb0262f1d63936, type: 3}
+      propertyPath: Color.g
+      value: 0.98475426
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763656726703128580, guid: 03131e4e3945aa34eadb0262f1d63936, type: 3}
+      propertyPath: Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
