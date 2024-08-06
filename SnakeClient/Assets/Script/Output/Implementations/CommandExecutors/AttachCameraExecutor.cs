@@ -19,15 +19,15 @@ namespace Assets.State.Executors
         {
             Binder = binder;
         }
-        public bool TryExecute(Stream stream)
+        public bool TryExecute(BinaryReader reader)
         {
-            if (stream.ReadByte() != 1)
+            if (reader.ReadByte() != 1)
             {
-                stream.Position -= 1;
+                reader.BaseStream.Position -= 1;
                 return false;
             }
             var buffer = new byte[4];
-            stream.Read(buffer);
+            reader.Read(buffer);
             var id = BitConverter.ToInt32(buffer);
             Binder.TargetId = id;
             return true;

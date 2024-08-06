@@ -12,7 +12,7 @@ using Assets.Script.Network.Party.Models;
 public class PartyNetworkController : MonoBehaviour, IPartyController
 {
     #region Dialogues
-    class LeaderDialogue : PartyEventSource, ILeaderDialogue
+    class LeaderDialogue : PartyDialogue, ILeaderDialogue
     {
         public LeaderDialogue(WebSocket ws) : base(ws)
         {
@@ -35,8 +35,10 @@ public class PartyNetworkController : MonoBehaviour, IPartyController
         }
     }
 
-    class MemberDialogue : PartyEventSource, IMemberDialogue
+    class MemberDialogue : PartyDialogue, IMemberDialogue
     {
+        private const int IdLength = 16;
+        private const int DataLength = 1;
         public MemberDialogue(WebSocket ws) : base(ws)
         {
             ws.OnMessage += HandleFirstMessage;
@@ -55,14 +57,20 @@ public class PartyNetworkController : MonoBehaviour, IPartyController
         {
             var result = new PartyState()
             {
-                Members = new List<PartyMember>()
+                Members = new List<MemberInfo>()
             };
-            for (var i = 0; i < bytes.Length; i += 8)
+            for (var i = 0; i < bytes.Length; i += (IdLength + DataLength))
             {
-                result.Members.Add(new PartyMember()
+                var member = new PartyMember()
                 {
-                    Id = GuidFromData(bytes.AsSpan(i, 8).ToArray())
-                });
+                    Id = GuidFromData(bytes.AsSpan(i + DataLength, IdLength).ToArray())
+                };
+                var info = new MemberInfo()
+                {
+                    Member = member,
+                    IsReady = Convert.ToBoolean(bytes[i])
+                };
+                result.Members.Add(info);
             }
             return result;
         }
@@ -83,6 +91,7 @@ public class PartyNetworkController : MonoBehaviour, IPartyController
         {
             _ws = ws;
             _ws.OnOpen += HandleSuccess;
+            _ws.OnOpen += () => _ws.OnError -= HandleFailure;
             _ws.OnError += HandleFailure;
         }
 
@@ -146,22 +155,28 @@ public class PartyNetworkController : MonoBehaviour, IPartyController
 
     private WebSocket Active { get; set; }
 
-    public IRequestEventSource<ILeaderDialogue> RequestCreateParty()
+    public IRequestEventSource<ILeaderDialogue> RequestCreateParty(Guid id)
     {
-        var id = Guid.NewGuid();
         var ws = new WebSocket(UrlCreate(id));
         ws.Connect();
         Active = ws;
         return new LeaderResponse(ws);
     }
 
-    public IRequestEventSource<IMemberDialogue> RequestJoinParty(string code)
+    public IRequestEventSource<IMemberDialogue> RequestJoinParty(Guid id, string code)
     {
-        var id = Guid.NewGuid();
         var ws = new WebSocket(UrlJoin(id, code));
         ws.Connect();
         Active = ws;
         return new MemberResponse(ws);
+    }
+
+    public void LeaveParty()
+    {
+        if (Active.State == WebSocketState.Open)
+        {
+            Active.CancelConnection();
+        }
     }
 
 #if UNITY_EDITOR

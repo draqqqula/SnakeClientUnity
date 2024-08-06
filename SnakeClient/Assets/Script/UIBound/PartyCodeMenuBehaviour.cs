@@ -3,7 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class PartyCodeMenuBehaviour : UIElement
+public class PartyCodeMenuBehaviour : MonoBehaviour
 {
+    public UnityEvent<string> OnConfirmed;
+    public string Code { get; set; }
+
+    public void JoinParty()
+    {
+        OnConfirmed?.Invoke(Code);
+    }
 }

@@ -16,15 +16,15 @@ public class AbilityCooldownExecutor : ICommandExecutor
         Controller = controller;
     }
 
-    public bool TryExecute(Stream stream)
+    public bool TryExecute(BinaryReader reader)
     {
-        if (stream.ReadByte() != 7)
+        if (reader.ReadByte() != 7)
         {
-            stream.Position -= 1;
+            reader.BaseStream.Position -= 1;
             return false;
         }
         var buffer = new byte[4];
-        stream.Read(buffer, 0, 4);
+        reader.Read(buffer, 0, 4);
         Controller.SetCooldown(BitConverter.ToSingle(buffer));
         return true;
     }

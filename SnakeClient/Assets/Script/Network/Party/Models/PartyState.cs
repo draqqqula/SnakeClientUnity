@@ -8,6 +8,12 @@ namespace Assets.Script.Network.Party.Models
 {
     public class PartyState
     {
-        public List<PartyMember> Members { get; set; }
+        public List<MemberInfo> Members { get; set; }
+    }
+
+    public class MemberInfo
+    {
+        public PartyMember Member { get; set; }
+        public bool IsReady { get; set; }
     }
 }

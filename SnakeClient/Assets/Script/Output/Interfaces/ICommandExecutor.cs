@@ -9,6 +9,6 @@ namespace Assets.State
 {
     public interface ICommandExecutor
     {
-        public bool TryExecute(Stream stream);
+        public bool TryExecute(BinaryReader reader);
     }
 }

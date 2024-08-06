@@ -19,15 +19,15 @@ namespace Assets.Output.Implementations.CommandExecutors
         {
             Window = window;
         }
-        public bool TryExecute(Stream stream)
+        public bool TryExecute(BinaryReader reader)
         {
-            if (stream.ReadByte() != 6)
+            if (reader.ReadByte() != 6)
             {
-                stream.Position -= 1;
+                reader.BaseStream.Position -= 1;
                 return false;
             }
             var buffer = new byte[4];
-            stream.Read(buffer, 0, 4);
+            reader.Read(buffer, 0, 4);
             var duration = BitConverter.ToSingle(buffer, 0);
             Window.Show();
             Window.SetTimer(duration);

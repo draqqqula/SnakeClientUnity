@@ -13,6 +13,7 @@ public class MinimapController : MonoBehaviour
     public FrameDisplay Display;
 
     private Dictionary<MinimapDisplayable, GameObject> Pinned = new ();
+    private Dictionary<MinimapDisplayable, int> IdStorage = new();
 
     private List<int> Pending = new ();
 
@@ -37,6 +38,7 @@ public class MinimapController : MonoBehaviour
             frame.TryGetComponent<MinimapDisplayable>(out var displayable))
             {
                 Pinned.TryAdd(displayable, Instantiate(displayable.IconPrefab, _mapTransform));
+                IdStorage.TryAdd(displayable, id);
                 Pending.Remove(id);
             }
         }
@@ -44,7 +46,7 @@ public class MinimapController : MonoBehaviour
 
     private void UpdateIcons()
     {
-        foreach (var icon in Pinned)
+        foreach (var icon in Pinned.ToArray())
         {
             if (!icon.Key.IsDestroyed())
             {
@@ -59,10 +61,20 @@ public class MinimapController : MonoBehaviour
                     icon.Key.transform.localRotation = icon.Value.transform.rotation;
                 }
             }
+            else if (IdStorage.TryGetValue(icon.Key, out var id) && Display.Instances.TryGetValue(id, out var frame) &&
+            frame.TryGetComponent<MinimapDisplayable>(out var displayable))
+            {
+                Destroy(icon.Value);
+                Pinned.Remove(icon.Key);
+                IdStorage.Remove(icon.Key);
+                Pinned.TryAdd(displayable, Instantiate(displayable.IconPrefab, _mapTransform));
+                IdStorage.TryAdd(displayable, id);
+            }
             else
             {
-                Destroy(icon.Key);
+                Destroy(icon.Value);
                 Pinned.Remove(icon.Key);
+                IdStorage.Remove(icon.Key);
             }
         }
     }

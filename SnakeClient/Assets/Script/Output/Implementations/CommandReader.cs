@@ -22,12 +22,13 @@ namespace Assets.State
         public void Read(byte[] buffer)
         {
             using var stream = new MemoryStream(buffer);
+            using var reader = new BinaryReader(stream);
             while (stream.Position < stream.Length - 1)
             {
                 bool executorFound = false;
                 foreach (var executor in Executors)
                 {
-                    if (executor.TryExecute(stream))
+                    if (executor.TryExecute(reader))
                     {
                         executorFound = true;
                         break;

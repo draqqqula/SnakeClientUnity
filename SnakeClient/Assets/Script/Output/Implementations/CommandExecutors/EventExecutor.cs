@@ -22,19 +22,19 @@ namespace Assets.State.Executors
             Joystick = joystick;
         }
 
-        public bool TryExecute(Stream stream)
+        public bool TryExecute(BinaryReader reader)
         {
-            if (stream.ReadByte() != 0)
+            if (reader.ReadByte() != 0)
             {
-                stream.Position -= 1;
+                reader.BaseStream.Position -= 1;
                 return false;
             }
             var lengthBuffer = new byte[4];
-            stream.Read(lengthBuffer);
+            reader.Read(lengthBuffer);
             var messageLength = BitConverter.ToUInt32(lengthBuffer);
             
             var messageBuffer = new byte[messageLength];
-            stream.Read(messageBuffer);
+            reader.Read(messageBuffer);
             var loader = new ByteBuffer(messageBuffer);
             var message = EventMessage.GetRootAsEventMessage(loader);
             Display.Synchronize(message);

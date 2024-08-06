@@ -10,6 +10,8 @@ public class PlayerIconBehaviour : MonoBehaviour
     private bool _isOwn;
     [SerializeField]
     private bool _isLeader;
+    [SerializeField]
+    private bool _isReady;
 
     [SerializeField]
     private Color OwnHaloColor;
@@ -19,6 +21,7 @@ public class PlayerIconBehaviour : MonoBehaviour
     [field: SerializeField] private SpriteRenderer Halo { get; set; }
     [field: SerializeField] private SpriteRenderer Crown { get; set; }
     [field: SerializeField] private TMP_Text NicknameDisplay { get; set; }
+    [field: SerializeField] private TMP_Text ReadyStatusDisplay { get; set; }
     public bool IsOwn
     {
         get
@@ -57,6 +60,20 @@ public class PlayerIconBehaviour : MonoBehaviour
             _isLeader = value;
         }
     }
+
+    public bool IsReady
+    {
+        get
+        {
+            return _isReady;
+        }
+        set
+        {
+            ReadyStatusDisplay.gameObject.SetActive(value);
+            _isReady = value;
+        }
+    }
+
     public string Nickname
     {
         get 
@@ -73,6 +90,7 @@ public class PlayerIconBehaviour : MonoBehaviour
     {
         IsOwn = _isOwn;
         IsLeader = _isLeader;
+        IsReady = _isReady;
     }
 
     private void AddLeaderStatus()
@@ -87,11 +105,11 @@ public class PlayerIconBehaviour : MonoBehaviour
 
     private void AddOwnStatus()
     {
-        Crown.color = OwnHaloColor;
+        Halo.color = OwnHaloColor;
     }
 
     private void RemoveOwnStatus()
     {
-        Crown.color = OwnHaloColor;
+        Halo.color = DefaultHaloColor;
     }
 }

@@ -22,5 +22,10 @@ namespace Assets.UIElements.Scripts
             base.Show();
             Root?.SetActive(true);
         }
+
+        private void Reset()
+        {
+            Root = gameObject;
+        }
     }
 }

@@ -17,15 +17,15 @@ public class TimerExecutor : ICommandExecutor
         Controller = timer;
     }
 
-    public bool TryExecute(Stream stream)
+    public bool TryExecute(BinaryReader reader)
     {
-        if (stream.ReadByte() != 4)
+        if (reader.ReadByte() != 4)
         {
-            stream.Position -= 1;
+            reader.BaseStream.Position -= 1;
             return false;
         }
         var buffer = new byte[8];
-        stream.Read(buffer, 0, 8);
+        reader.Read(buffer, 0, 8);
         Controller.TimerExpires = TimeSpan.FromSeconds(Time.realtimeSinceStartup + BitConverter.ToDouble(buffer));
         return true;
     }

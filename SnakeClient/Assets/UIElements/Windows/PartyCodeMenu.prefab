@@ -290,7 +290,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8381779615249381381}
+        m_TargetAssemblyTypeName: PartyCodeMenuBehaviour, Assembly-CSharp
+        m_MethodName: set_Code
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1093,7 +1105,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4686467113197746179}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8381779615249381381}
+        m_TargetAssemblyTypeName: PartyCodeMenuBehaviour, Assembly-CSharp
+        m_MethodName: JoinParty
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6138780188774502277}
+        m_TargetAssemblyTypeName: Assets.UIElements.Scripts.UIElement, Assembly-CSharp
+        m_MethodName: Hide
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6685009425691727209
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,6 +1140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3749331857765283265}
   - component: {fileID: 8381779615249381381}
+  - component: {fileID: 6138780188774502277}
   m_Layer: 0
   m_Name: PartyCodeMenu
   m_TagString: Untagged
@@ -1138,6 +1175,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ee3983a301ebdc47bc9f34ea8cac366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnConfirmed:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &6138780188774502277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6685009425691727209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db4830243594e234b97f77ebe9c6c2a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   OnShow:
@@ -1402,4 +1454,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6427480119981685639}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6138780188774502277}
+        m_TargetAssemblyTypeName: Assets.UIElements.Scripts.UIElement, Assembly-CSharp
+        m_MethodName: Hide
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

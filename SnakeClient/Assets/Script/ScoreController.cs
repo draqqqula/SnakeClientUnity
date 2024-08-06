@@ -12,32 +12,44 @@ public enum TeamColor
     Yellow,
 }
 
-public class ScoreController : WindowDisplay
+public class ScoreController : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject Root;
+    [field: SerializeField] private TeamScoreDisplay[] ScoreDisplays {  get; set; }
+    private Dictionary<TeamColor, TeamScoreDisplay> AvailableDisplays { get; set; }
+    private Dictionary<TeamColor, int> Scores { get; set; } = new ();
 
-    public TextMeshPro[] TextObjects;
+    private void Reset()
+    {
+        ScoreDisplays = GetComponentsInChildren<TeamScoreDisplay>();
+    }
+
+    private void Start()
+    {
+        AvailableDisplays = ScoreDisplays.ToDictionary(it => it.Team, it => it);
+    }
 
     public void ChangeValue(TeamColor team, int value)
     {
-        var targetObject = TextObjects.FirstOrDefault(it => it.tag == team.ToString());
-        if (targetObject is null)
+        Scores[team] = value;
+
+        if (AvailableDisplays.TryGetValue(team, out var display))
         {
-            return;
+            display.SetScore(value);
+
+            var maxScore = Scores.Values.Max();
+            if (value != maxScore || value == 0)
+            {
+                return;
+            }
+
+            display.SetLeader(true);
+            foreach (var other in AvailableDisplays)
+            {
+                if (Scores.TryGetValue(other.Key, out var otherScore) && otherScore < maxScore)
+                {
+                    other.Value.SetLeader(false);
+                }
+            }
         }
-        targetObject.text = value.ToString();
-    }
-
-    public override void Hide()
-    {
-        Root?.SetActive(false);
-        base.Hide();
-    }
-
-    public override void Show()
-    {
-        Root?.SetActive(true);
-        base.Show();
     }
 }

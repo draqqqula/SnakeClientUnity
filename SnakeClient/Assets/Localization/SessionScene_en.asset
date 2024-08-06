@@ -24,10 +24,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 5928777924978933786
+  - m_Id: 20757066671644672
+    m_Localized: Activating bonus in {0}
+    m_Metadata:
+      m_Items:
+      - rid: 5928777924978933786
   references:
     version: 2
     RefIds:
     - rid: 5928777924978933786
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 00e08a0104000000
+        m_Entries: 00e08a010400000000e08a3171be4900

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PartyInfoBehaviour : UIElement
+public class PartyInfoBehaviour : MonoBehaviour
 {
     [field: SerializeField] private TMP_Text TextDisplay {  get; set; }
 

@@ -19,6 +19,10 @@ MonoBehaviour:
     m_Key: RespawnTimer
     m_Metadata:
       m_Items: []
+  - m_Id: 20757066671644672
+    m_Key: BonusActivation
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -19,12 +19,10 @@ public class ScoreExecutor : ItemSetExecutor
         Controller = controller;
     }
 
-    public override void ParseItem(Stream stream)
+    public override void ParseItem(BinaryReader reader)
     {
-        var team = (TeamColor)stream.ReadByte();
-        var buffer = new byte[4];
-        stream.Read(buffer, 0, 4);
-        var score = BitConverter.ToInt32(buffer);
+        var team = (TeamColor)reader.ReadByte();
+        var score = reader.ReadInt32();
         Controller.ChangeValue(team, score);
     }
 }

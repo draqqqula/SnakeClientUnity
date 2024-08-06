@@ -19,11 +19,9 @@ public class MinimapExecutor : ItemSetExecutor
         Controller = controller;
     }
 
-    public override void ParseItem(Stream stream)
+    public override void ParseItem(BinaryReader stream)
     {
-        var buffer = new byte[4];
-        stream.Read(buffer, 0, 4);
-        var id = BitConverter.ToInt32(buffer);
+        var id = stream.ReadInt32();
         Controller.Pin(id);
     }
 }

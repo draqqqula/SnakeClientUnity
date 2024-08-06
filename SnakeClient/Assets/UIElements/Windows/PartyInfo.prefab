@@ -172,14 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b846207bd902c5e4aaa3d5b130477e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnShow:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHide:
-    m_PersistentCalls:
-      m_Calls: []
-  ShowOnStart: 0
-  Root: {fileID: 4968833054819289020}
+  <TextDisplay>k__BackingField: {fileID: 1630066712692018770}
 --- !u!1 &5089439677546753188
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,8 +265,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 10
+  m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -587,8 +580,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 29.9}
-  m_SizeDelta: {x: 90, y: 30}
+  m_AnchoredPosition: {x: 0.15516, y: 27.8048}
+  m_SizeDelta: {x: 69.41, y: 23.1366}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7781967127743747353
 CanvasRenderer:

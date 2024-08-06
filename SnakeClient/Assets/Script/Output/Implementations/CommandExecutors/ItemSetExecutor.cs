@@ -11,17 +11,17 @@ namespace Assets.Protocol.Implementations.CommandExecutors
 {
     public abstract class ItemSetExecutor : ICommandExecutor
     {
-        public bool TryExecute(Stream stream)
+        public bool TryExecute(BinaryReader reader)
         {
-            if (stream.ReadByte() != SignatureByte)
+            if (reader.ReadByte() != SignatureByte)
             {
-                stream.Position -= 1;
+                reader.BaseStream.Position -= 1;
                 return false;
             }
-            var count = stream.ReadByte();
+            var count = reader.ReadByte();
             for (int i = 0; i < count; i++)
             {
-                ParseItem(stream);
+                ParseItem(reader);
             }
 
             return true;
@@ -29,6 +29,6 @@ namespace Assets.Protocol.Implementations.CommandExecutors
 
         public abstract byte SignatureByte { get; }
 
-        public abstract void ParseItem(Stream stream);
+        public abstract void ParseItem(BinaryReader reader);
     }
 }
