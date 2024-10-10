@@ -1114,7 +1114,7 @@ MonoBehaviour:
   OptionBinder: {fileID: 1858764630}
   RespawnWindowDisplay: {fileID: 1858764631}
   AbilityButtonController: {fileID: 2025103789}
-  BonusNotification: {fileID: 1392777865}
+  BonusNotification: {fileID: 0}
   StatisticsDisplay: {fileID: 1217615275}
 --- !u!114 &218228387
 MonoBehaviour:
@@ -4179,9 +4179,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1392777861}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 155a01f403990f44ab0203372ce57f1c, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b50520c8927f9c41a007dddd2205970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Timer>k__BackingField: {fileID: 48956436}
+  <UI>k__BackingField: {fileID: 1392777864}
 --- !u!1 &1525956233
 GameObject:
   m_ObjectHideFlags: 0
