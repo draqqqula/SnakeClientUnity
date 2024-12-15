@@ -6,7 +6,7 @@ namespace YG.Insides
     public class ConfigYG : MonoBehaviour
     {
 #if UNITY_EDITOR
-        public static string patchYGPrefab = "Assets/YandexGame/Prefabs/YandexGame.prefab";
+        public static string patchYGPrefab = "Assets/Plugins/YandexGame/Prefabs/YandexGame.prefab";
 
         public static InfoYG GetInfoYG()
         {

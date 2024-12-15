@@ -17,6 +17,7 @@ public class MapCommandHandler
         ICommandListenerFactory factory)
     {
         factory.ListenFor<string, float>("LoadMap").OnRecieved += (name, scale) => mapLoader.Load(name).BuildWith(mapBuilder, scale);
-        factory.ListenFor<int[]>("BreakTerrain").OnRecieved += mapBuilder.Break;
+        factory.ListenFor<int[]>("BreakTiles").OnRecieved += mapBuilder.Break;
+        factory.ListenFor<int[]>("RemoveTiles").OnRecieved += mapBuilder.Break;
     }
 }

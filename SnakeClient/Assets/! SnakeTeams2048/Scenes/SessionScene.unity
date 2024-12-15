@@ -1114,7 +1114,7 @@ MonoBehaviour:
   OptionBinder: {fileID: 1858764630}
   RespawnWindowDisplay: {fileID: 1858764631}
   AbilityButtonController: {fileID: 2025103789}
-  BonusNotification: {fileID: 0}
+  BonusNotification: {fileID: 1392777865}
   StatisticsDisplay: {fileID: 1217615275}
 --- !u!114 &218228387
 MonoBehaviour:
